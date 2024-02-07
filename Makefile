@@ -1,18 +1,30 @@
-MY_CFILES = xor_cipher.c
-MY_OBJECTS = $(MY_CFILES:.c=.o)
-NAME = xor
-CFLAGS = -Wall -Werror -Wextra
+CC := cc
+CFLAGS := -Wall -Werror -Wextra
+
+SRCS_DIR := srcs
+INCS_DIR := srcs
+
+CFILES := file_content.c main.c xor_cipher.c
+SRCS_FILES := $(addprefix $(SRCS_DIR)/, $(CFILES))
+OFILES := $(SRCS_FILES:.c=.o)
+HEADER := $(INCS_DIR)/types.h
+
+NAME := xor-cipher
 
 all: $(NAME)
 
-$(NAME): $(MY_OBJECTS)
-	cc $(CFLAGS) -o $(NAME) $(MY_OBJECTS)
+$(NAME): $(OFILES)
+	$(CC) $(CFLAGS) -o $@ $(OFILES)
 
-%.o: %.c
-	cc $(CFLAGS) -c -o $@ $<
+$(OFILES): %.o: %.c $(HEADER)
+	$(CC) $(CFLAGS) -I$(INCS_DIR) -c $< -o $@
 
 clean:
-	rm -f $(MY_OBJECTS)
+	rm -f $(OFILES)
 
 fclean: clean
 	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re

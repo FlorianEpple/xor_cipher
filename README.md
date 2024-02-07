@@ -10,11 +10,11 @@ make clean
 ## Usage
 
 ```sh
-./xor <file_path> <key>
+./xor-cipher <file_path> [<key>]
 ```
 
 ## Example
 
 ```sh
-./xor example.txt .example.key
+./xor-cipher example.txt
 ```
